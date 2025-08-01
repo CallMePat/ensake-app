@@ -15,12 +15,21 @@ If you want to test the live app without cloning or setting it up locally:
 
 #### Expo Account Credentials
 Username: callmepat
+
 Password: EmaikuOmolola123
 
 
 3. After login, go to the **Projects** tab and select the `ensake` app to launch it instantly.
 
 ---
+
+### Test Login Credentials for Ensake App
+
+Once the app opens, use the following **test credentials** to sign in:
+
+Email: ghengiskhan@gmail.com
+
+Password: secret
 
 ### Option 2: Clone and Run Locally
 
@@ -93,4 +102,28 @@ MakeDryApiCall and MakeDryApiCallForReward – ensure clean response structure a
 ## Deployment
 OTA updates are enabled via EAS Update.
 
+---
 
+## Project Structure
+
+ensake/
+
+├── app/                     # Screens and routing
+
+├── components/              # UI components
+
+├── hooks/                   # Reusable logic (e.g. useRewardsData)
+
+├── services/                # API interactions
+
+├── types/                   # TypeScript types
+
+├── utils/                   # Auth utilities
+
+├── assets/                  # Fonts and images
+
+├── .env                     # Environment config
+
+├── app.json                 # Expo config
+
+└── README.md

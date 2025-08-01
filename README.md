@@ -93,6 +93,4 @@ MakeDryApiCall and MakeDryApiCallForReward – ensure clean response structure a
 ## Deployment
 OTA updates are enabled via EAS Update.
 
-To push updates:
-
 

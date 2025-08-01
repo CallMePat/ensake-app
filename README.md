@@ -53,7 +53,7 @@ Steps
 ```npx expo start```
 
 
-###Key Features
+### Key Features
 - Email/password login
 
 - Points tracking and display
@@ -74,28 +74,28 @@ Steps
 
 - EAS (Expo Application Services) Update ready
 
-###Architecture Overview
-##Component-Driven Design
+### Architecture Overview
+## Component-Driven Design
 Screens are composed of small, focused components:
 
 PointsCard, UserHeader, RewardsList, RewardItem, StatusModal, etc.
 
-##Hooks
+## Hooks
 useRewardsData handles login state, rewards fetching, and reward claiming.
 
 useDevice detects screen size/orientation to render appropriately on tablets.
 
-##API Layer
+## API Layer
 All API calls are managed via:
 
 MakeDryApiCall and MakeDryApiCallForReward – ensure clean response structure and error handling.
 
-##Deployment
+## Deployment
 OTA updates are enabled via EAS Update.
 
 To push updates:
 
-###Project Structure
+### Project Structure
 ensake/
 ├── app/                     # Screens and routing
 ├── components/              # UI components

@@ -1,7 +1,10 @@
 {
   "expo": {
-    "name": "ensake",
+    "name": "Ensake",
     "slug": "ensake",
+    "extra": {
+      "BASE_URL": "https://staging-core.ensake.com/assessment"
+    },
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",

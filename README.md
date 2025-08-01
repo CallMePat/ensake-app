@@ -53,7 +53,7 @@ Steps
 ```npx expo start```
 
 
-### Key Features
+## Key Features
 - Email/password login
 
 - Points tracking and display
@@ -95,16 +95,4 @@ OTA updates are enabled via EAS Update.
 
 To push updates:
 
-### Project Structure
-ensake/
-├── app/                     # Screens and routing
-├── components/              # UI components
-├── hooks/                   # Reusable logic (e.g. useRewardsData)
-├── services/                # API interactions
-├── types/                   # TypeScript types
-├── utils/                   # Auth utilities
-├── assets/                  # Fonts and images
-├── .env                     # Environment config
-├── app.json                 # Expo config
-└── README.md
 

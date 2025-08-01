@@ -11,8 +11,7 @@ import "../global.css";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { DeviceProvider } from "@/hooks/useDevice";
-
-
+import { LocalizationProvider } from "@/context/localization";
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
@@ -27,14 +26,16 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === "dark" ? DarkTheme : DefaultTheme}>
-      <DeviceProvider>
-        <Stack>
-          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-          <Stack.Screen name="(auth)" options={{ headerShown: false }} />
-          <Stack.Screen name="+not-found" />
-        </Stack>
-        <StatusBar style="dark" />
-      </DeviceProvider>
+      <LocalizationProvider>
+        <DeviceProvider>
+          <Stack>
+            <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="(auth)" options={{ headerShown: false }} />
+            <Stack.Screen name="+not-found" />
+          </Stack>
+          <StatusBar style="dark" />
+        </DeviceProvider>
+      </LocalizationProvider>
     </ThemeProvider>
   );
 }

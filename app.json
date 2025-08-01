@@ -3,7 +3,11 @@
     "name": "Ensake",
     "slug": "ensake",
     "extra": {
-      "BASE_URL": "https://staging-core.ensake.com/assessment"
+      "BASE_URL": "https://staging-core.ensake.com/assessment",
+      "router": {},
+      "eas": {
+        "projectId": "797f0b84-87f2-4a4a-8407-2cb830aff125"
+      }
     },
     "version": "1.0.0",
     "orientation": "portrait",
@@ -40,6 +44,12 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/797f0b84-87f2-4a4a-8407-2cb830aff125"
     }
   }
 }

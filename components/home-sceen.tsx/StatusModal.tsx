@@ -2,13 +2,14 @@ import React from "react";
 import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { CheckCircle, AlertCircle } from "lucide-react-native";
 import { useDevice } from "@/hooks/useDevice";
+import { useLocalization } from "@/context/localization";
 
 interface StatusModalProps {
   type: "success" | "failed";
   visible: boolean;
   onClose: () => void;
   message: string;
-  onViewDetails?: () => void; // New prop for view details action
+  onViewDetails?: () => void;
 }
 
 export default function StatusModal({
@@ -19,6 +20,7 @@ export default function StatusModal({
   onViewDetails
 }: StatusModalProps) {
   const { isTablet, responsiveSize } = useDevice();
+  const { t } = useLocalization();
   const isSuccess = type === "success";
 
   const iconSize = responsiveSize(20);
@@ -38,8 +40,8 @@ export default function StatusModal({
           }`}
         >
           {/* Icon */}
-          <View className="flex flex-row items-center gap-3  border-b border-gray-200 pb-4 mb-4">
-            <View className="items-center ">
+          <View className="flex flex-row items-center gap-3 border-b border-gray-200 pb-4 mb-4">
+            <View className="items-center">
               <View
                 className={`w-12 h-12 rounded-2xl items-center justify-center ${
                   isSuccess ? "bg-green-100" : "bg-red-100"
@@ -53,25 +55,25 @@ export default function StatusModal({
               </View>
             </View>
             <View className="">
-              <Text className="text-lg font-semibold text-gray-900  text-start">
-                {isSuccess ? "Points Earned!" : "Failed"}
+              <Text className="text-lg font-semibold text-gray-900 text-start">
+                {isSuccess ? t('rewards.pointsEarned') : t('rewards.claimFailed')}
               </Text>
               <Text className="text-gray-500 text-start text-base leading-6">
                 {message}
               </Text>
             </View>
           </View>
-          {/* Content */}
+
           {/* Buttons */}
           <View className="w-full flex-row gap-3 items-center">
             <TouchableOpacity
               className="flex-1 border border-gray-200 rounded-xl py-3 px-4 justify-center"
               onPress={onClose}
               accessibilityRole="button"
-              accessibilityLabel={isSuccess ? "Cancel" : "Try again"}
+              accessibilityLabel={isSuccess ? t('common.cancel') : t('common.tryAgain')}
             >
               <Text className="text-gray-700 text-center text-lg font-medium">
-                {isSuccess ? "Cancel" : "Try Again"}
+                {isSuccess ? t('common.cancel') : t('common.tryAgain')}
               </Text>
             </TouchableOpacity>
 
@@ -79,10 +81,10 @@ export default function StatusModal({
               className="flex-1 bg-blue-500 rounded-xl py-3 px-4 justify-center"
               onPress={onViewDetails}
               accessibilityRole="button"
-              accessibilityLabel="View details"
+              accessibilityLabel={t('common.viewDetails')}
             >
               <Text className="text-white text-center text-lg font-medium">
-                View Details
+                {t('common.viewDetails')}
               </Text>
             </TouchableOpacity>
           </View>

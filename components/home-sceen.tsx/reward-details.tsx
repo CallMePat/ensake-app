@@ -15,7 +15,7 @@ import {
   Gift,
   Star,
 } from "lucide-react-native";
-// import { useDevice } from "@/hooks/useDevice";
+import { useLocalization } from "@/context/localization";
 
 interface RewardDetail {
   brand: {
@@ -49,6 +49,7 @@ export default function RewardDetailsScreen({
   type,
 }: RewardDetailsScreenProps) {
   // const { isTablet, responsiveSize } = useDevice();
+  const { t } = useLocalization();
   const isSuccess = type === "success";
 
   if (!claimResult) return null;
@@ -69,13 +70,13 @@ export default function RewardDetailsScreen({
         <View className="bg-white px-6 pt-12 pb-4 shadow-sm">
           <View className="flex-row items-center justify-between">
             <Text className="text-2xl font-bold text-gray-900">
-              Reward Details
+              {t('rewards.rewardDetails')}
             </Text>
             <TouchableOpacity
               onPress={onClose}
               className="w-10 h-10 bg-gray-100 rounded-full items-center justify-center"
               accessibilityRole="button"
-              accessibilityLabel="Close"
+              accessibilityLabel={t('common.close')}
             >
               <X size={20} color="#6B7280" />
             </TouchableOpacity>
@@ -103,7 +104,7 @@ export default function RewardDetailsScreen({
               </View>
               <View className="flex-1">
                 <Text className="text-xl font-bold text-gray-900">
-                  {isSuccess ? "Claim Successful!" : "Claim Failed"}
+                  {isSuccess ? t('rewards.claimSuccessful') : t('rewards.claimFailed')}
                 </Text>
                 <Text className="text-gray-600 mt-1">
                   {claimResult.message}
@@ -116,10 +117,10 @@ export default function RewardDetailsScreen({
               <Star size={24} color="#0066F9" />
               <View className="ml-3">
                 <Text className="text-blue-900 font-semibold text-lg">
-                  {customerPoints} Points
+                  {customerPoints} {t('common.points')}
                 </Text>
                 <Text className="text-blue-700 text-sm">
-                  Current Balance
+                  {t('rewards.currentBalance')}
                 </Text>
               </View>
             </View>
@@ -131,7 +132,7 @@ export default function RewardDetailsScreen({
               <View className="flex-row items-center mb-4">
                 <Trophy size={20} color="#10b981" />
                 <Text className="text-lg font-bold text-gray-900 ml-2">
-                  Reward Claimed
+                  {t('rewards.rewardClaimed')}
                 </Text>
               </View>
 
@@ -155,12 +156,12 @@ export default function RewardDetailsScreen({
                     <View className="flex-row items-center mt-2">
                       <View className="bg-green-100 px-3 py-1 rounded-full">
                         <Text className="text-green-800 font-medium text-xs">
-                          -{claimedReward.points} pts
+                          -{claimedReward.points} {t('common.points').toLowerCase()}
                         </Text>
                       </View>
                       <View className="bg-green-600 px-3 py-1 rounded-full ml-2">
                         <Text className="text-white font-medium text-xs">
-                          CLAIMED
+                          {t('common.claimed')}
                         </Text>
                       </View>
                     </View>
@@ -176,7 +177,7 @@ export default function RewardDetailsScreen({
               <View className="flex-row items-center mb-4">
                 <Gift size={20} color="#0066F9" />
                 <Text className="text-lg font-bold text-gray-900 ml-2">
-                  Available Rewards ({availableRewards.length})
+                  {t('rewards.availableRewards')} ({availableRewards.length})
                 </Text>
               </View>
 
@@ -230,12 +231,12 @@ export default function RewardDetailsScreen({
                               canAfford ? "text-blue-800" : "text-gray-500"
                             }`}
                           >
-                            {reward.points} pts
+                            {reward.points} {t('common.points').toLowerCase()}
                           </Text>
                         </View>
                         {!canAfford && (
                           <Text className="text-red-500 text-xs mt-1">
-                            Need {reward.points - customerPoints} more
+                            {t('rewards.needMore', { count: reward.points - customerPoints })}
                           </Text>
                         )}
                       </View>
@@ -249,23 +250,23 @@ export default function RewardDetailsScreen({
           {/* Summary Section */}
           <View className="bg-white mx-4 mt-4 rounded-2xl p-6 shadow-sm">
             <Text className="text-lg font-bold text-gray-900 mb-4">
-              Summary
+              {t('rewards.summary')}
             </Text>
             <View className="space-y-3">
               <View className="flex-row justify-between items-center">
-                <Text className="text-gray-600">Total Rewards</Text>
+                <Text className="text-gray-600">{t('rewards.totalRewards')}</Text>
                 <Text className="font-semibold text-gray-900">
                   {claimResult.rewards?.length || 0}
                 </Text>
               </View>
               <View className="flex-row justify-between items-center">
-                <Text className="text-gray-600">Claimed</Text>
+                <Text className="text-gray-600">{t('rewards.claimed')}</Text>
                 <Text className="font-semibold text-green-600">
                   {claimResult.rewards?.filter(r => r.claimed).length || 0}
                 </Text>
               </View>
               <View className="flex-row justify-between items-center">
-                <Text className="text-gray-600">Available</Text>
+                <Text className="text-gray-600">{t('rewards.available')}</Text>
                 <Text className="font-semibold text-blue-600">
                   {availableRewards.length}
                 </Text>
@@ -273,7 +274,7 @@ export default function RewardDetailsScreen({
               <View className="h-px bg-gray-200 my-2" />
               <View className="flex-row justify-between items-center">
                 <Text className="text-gray-900 font-semibold">
-                  Affordable Now
+                  {t('rewards.affordableNow')}
                 </Text>
                 <Text className="font-bold text-blue-600">
                   {availableRewards.filter(r => customerPoints >= r.points).length}
@@ -289,10 +290,10 @@ export default function RewardDetailsScreen({
             className="bg-blue-500 rounded-xl py-4 px-6"
             onPress={onClose}
             accessibilityRole="button"
-            accessibilityLabel="Continue"
+            accessibilityLabel={t('common.continue')}
           >
             <Text className="text-white text-center text-lg font-semibold">
-              Continue
+              {t('common.continue')}
             </Text>
           </TouchableOpacity>
         </View>

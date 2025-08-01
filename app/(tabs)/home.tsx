@@ -12,8 +12,15 @@ import {
   SafeAreaView,
   ScrollView,
   View,
+  TouchableOpacity,
+  Text,
 } from "react-native";
-import RewardDetailsScreen from "../../components/home-sceen.tsx/reward-details";
+import { Globe, Filter } from "lucide-react-native";
+import { useLocalization } from "@/context/localization";
+import { useRewardOrdering } from "@/hooks/useRewardOrdering";
+import RewardDetailsScreen from "@/components/home-sceen.tsx/reward-details";
+import LanguageSelector from "@/components/LanguageSelector";
+import SortFilterModal from "@/components/SortFilterModal";
 
 // Define the claim result type to match the actual return type
 interface ClaimResult {
@@ -34,20 +41,31 @@ interface ClaimResult {
 
 export default function HomeScreen() {
   const [showModal, setShowModal] = useState<"success" | "failed" | null>(null);
-  const [showDetailsScreen, setShowDetailsScreen] = useState(false); // New state for details screen
+  const [showDetailsScreen, setShowDetailsScreen] = useState(false);
+  const [showLanguageSelector, setShowLanguageSelector] = useState(false);
+  const [showSortFilter, setShowSortFilter] = useState(false);
+  
   const { isTablet, isLandscape, responsiveSize } = useDevice();
-  const { user, rewards, points, handleClaimReward, loading, refetch } =
-    useRewardsData();
+  const { user, rewards, points, handleClaimReward, loading, refetch } = useRewardsData();
+  const { t } = useLocalization();
+  
+  // Reward ordering
+  const {
+    sortedRewards,
+    sortOption,
+    setSortOption,
+    getRewardDistance,
+  } = useRewardOrdering(rewards);
+  
   const [modalMessage, setModalMessage] = useState<string>("");
-  const [claimResult, setClaimResult] = useState<ClaimResult | null>(null); // Store the full claim result
-
+  const [claimResult, setClaimResult] = useState<ClaimResult | null>(null);
 
   const handleClaim = async (rewardId: number) => {
     const reward = rewards.find((r) => Number(r.id) === rewardId);
 
     if (!reward) return;
     if (points < reward.points) {
-      setModalMessage("You do not have enough points to claim this reward.");
+      setModalMessage(t('error.notEnoughPoints'));
       setShowModal("failed");
       return;
     }
@@ -60,29 +78,29 @@ export default function HomeScreen() {
     
     // Store the full result for the details screen
     setClaimResult(result as ClaimResult);
-    setModalMessage(result.message || "Something went wrong");
+    setModalMessage(result.message || t('error.somethingWrong'));
     setShowModal(result.success ? "success" : "failed");
   };
 
   const handleViewDetails = () => {
-    setShowModal(null); // Close the status modal
-    setShowDetailsScreen(true); // Open the details screen
+    setShowModal(null);
+    setShowDetailsScreen(true);
   };
 
   const history = [
     {
       id: 1,
       type: "earned" as const,
-      title: "Points Earned",
-      description: "Received bonus points at sensible delicacy",
+      title: t('history.pointsEarned'),
+      description: t('history.receivedBonus', { place: 'sensible delicacy' }),
       points: "10pts",
       date: "Feb 12",
     },
     {
       id: 2,
       type: "claimed" as const,
-      title: "Points Claimed",
-      description: "Spent points at sensible delicacy",
+      title: t('history.pointsClaimed'),
+      description: t('history.spentPoints', { place: 'sensible delicacy' }),
       points: "30pts",
       date: "Feb 12",
     },
@@ -95,6 +113,33 @@ export default function HomeScreen() {
           isTablet ? "max-w-4xl px-8" : "px-4"
         }`}
       >
+        {/* Header with Language and Sort buttons */}
+        <View className="flex-row justify-between items-center pt-4 pb-2">
+          <TouchableOpacity
+            onPress={() => setShowLanguageSelector(true)}
+            className="flex-row items-center bg-white px-4 py-2 rounded-xl shadow-sm"
+            accessibilityRole="button"
+            accessibilityLabel={t('settings.language')}
+          >
+            <Globe size={18} color="#0066F9" />
+            <Text className="text-blue-600 font-medium ml-2">
+              {t('settings.language')}
+            </Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            onPress={() => setShowSortFilter(true)}
+            className="flex-row items-center bg-white px-4 py-2 rounded-xl shadow-sm"
+            accessibilityRole="button"
+            accessibilityLabel={t('order.filterSort')}
+          >
+            <Filter size={18} color="#0066F9" />
+            <Text className="text-blue-600 font-medium ml-2">
+              {t('order.sortBy')}
+            </Text>
+          </TouchableOpacity>
+        </View>
+
         <ScrollView
           className="flex-1"
           showsVerticalScrollIndicator={false}
@@ -103,16 +148,18 @@ export default function HomeScreen() {
         >
           <UserHeader user={user} />
 
-          <PointsCard points={points} availableRewards={rewards.length} />
+          <PointsCard points={points} availableRewards={sortedRewards.length} />
           {loading ? (
             <ActivityIndicator size="large" color="#0066F9" />
           ) : (
             <RewardsList
-              rewards={rewards}
+              rewards={sortedRewards}
               isTablet={isTablet}
               isLandscape={isLandscape}
               onClaimReward={handleClaim}
               userPoints={points}
+              getRewardDistance={getRewardDistance}
+              sortOption={sortOption}
             />
           )}
 
@@ -127,7 +174,7 @@ export default function HomeScreen() {
           visible={!!showModal}
           onClose={() => setShowModal(null)}
           message={modalMessage}
-          onViewDetails={handleViewDetails} // Pass the view details handler
+          onViewDetails={handleViewDetails}
         />
       )}
 
@@ -136,7 +183,21 @@ export default function HomeScreen() {
         visible={showDetailsScreen}
         onClose={() => setShowDetailsScreen(false)}
         claimResult={claimResult}
-        type={showModal || "success"} // Use the current modal type or default to success
+        type={showModal || "success"}
+      />
+
+      {/* Language Selector */}
+      <LanguageSelector
+        visible={showLanguageSelector}
+        onClose={() => setShowLanguageSelector(false)}
+      />
+
+      {/* Sort Filter Modal */}
+      <SortFilterModal
+        visible={showSortFilter}
+        onClose={() => setShowSortFilter(false)}
+        currentSort={sortOption}
+        onSortChange={setSortOption}
       />
     </SafeAreaView>
   );

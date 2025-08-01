@@ -94,6 +94,35 @@ useRewardsData handles login state, rewards fetching, and reward claiming.
 
 useDevice detects screen size/orientation to render appropriately on tablets.
 
+## Reward Ordering Feature
+Users can now sort available rewards using the sort dropdown. Sorting options include:
+
+- Points – Ascending (least to most)
+
+- Points – Descending (most to least)
+
+- Nearby Brands (simulated with mock location-based proximity)
+
+- Sorting helps users easily find rewards relevant to their preference.
+
+## Localization Support
+The app now supports two languages:
+
+- English
+
+- German
+
+A language switch button is available at the top of the home screen to toggle between the two.
+
+### How to Test the Updates
+After launching the app:
+
+- Use the sort dropdown above the reward list to test reward ordering.
+
+- Tap the "Switch Language" button to toggle between English and German translations.
+
+
+
 ## API Layer
 All API calls are managed via:
 
@@ -127,3 +156,5 @@ ensake/
 ├── app.json                 # Expo config
 
 └── README.md
+
+

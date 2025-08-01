@@ -1,50 +1,110 @@
-# Welcome to your Expo app 👋
+# Ensake Rewards Mobile App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+This mobile app was built for the Ensake developer assessment using **React Native**, **Expo Router**, and **TypeScript**. It allows users to log in, view their current reward points, browse claimable rewards, and redeem them if eligible. The UI is responsive and optimized for both phones and tablets.
 
-## Get started
+---
 
-1. Install dependencies
+## How to Test the App
 
-   ```bash
-   npm install
-   ```
+### Option 1: Test Live via Expo Go
 
-2. Start the app
+If you want to test the live app without cloning or setting it up locally:
 
-   ```bash
-   npx expo start
-   ```
+1. Download **Expo Go** from the [Play Store](https://play.google.com/store/apps/details?id=host.exp.exponent) or [App Store](https://apps.apple.com/app/expo-go/id982107779).
+2. Open **Expo Go**, tap “Profile” at the bottom and **log in** with the Expo account credentials below.
 
-In the output, you'll find options to open the app in a
+#### Expo Account Credentials
+Username: callmepat
+Password: EmaikuOmolola123
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+3. After login, go to the **Projects** tab and select the `ensake` app to launch it instantly.
 
-## Get a fresh project
+---
 
-When you're ready, run:
+### Option 2: Clone and Run Locally
 
-```bash
-npm run reset-project
-```
+If you’d prefer to clone the app and run it in your own environment:
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+#### Prerequisites
 
-## Learn more
+- Node.js ≥ 16.x
+- npm or yarn
+- Expo CLI: Install globally using:
 
-To learn more about developing your project with Expo, look at the following resources:
+```npm install -g expo-cli```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+Steps
 
-## Join the community
+1. Clone the project:
 
-Join our community of developers creating universal apps.
+```git clone https://github.com/your-username/ensake.git```
+```cd ensake```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+2. Install dependencies:
+
+```npm install```
+
+3. Create a .env file in the root with the following:
+
+```BASE_URL=https://staging-core.ensake.com/assessment-docs```
+
+4. Run the development server:
+```npx expo start```
+
+
+###Key Features
+- Email/password login
+
+- Points tracking and display
+
+- Claimable rewards list with brand info and required points
+
+- Claim reward functionality with:
+
+- Client-side validation (ensures you have enough points)
+
+- API integration to update reward and points
+
+- Visual feedback on success/failure
+
+- Responsive layout (phone/tablet optimized)
+
+- Pull-to-refresh support
+
+- EAS (Expo Application Services) Update ready
+
+###Architecture Overview
+##Component-Driven Design
+Screens are composed of small, focused components:
+
+PointsCard, UserHeader, RewardsList, RewardItem, StatusModal, etc.
+
+##Hooks
+useRewardsData handles login state, rewards fetching, and reward claiming.
+
+useDevice detects screen size/orientation to render appropriately on tablets.
+
+##API Layer
+All API calls are managed via:
+
+MakeDryApiCall and MakeDryApiCallForReward – ensure clean response structure and error handling.
+
+##Deployment
+OTA updates are enabled via EAS Update.
+
+To push updates:
+
+###Project Structure
+ensake/
+├── app/                     # Screens and routing
+├── components/              # UI components
+├── hooks/                   # Reusable logic (e.g. useRewardsData)
+├── services/                # API interactions
+├── types/                   # TypeScript types
+├── utils/                   # Auth utilities
+├── assets/                  # Fonts and images
+├── .env                     # Environment config
+├── app.json                 # Expo config
+└── README.md
+
